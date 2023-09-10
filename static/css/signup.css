@@ -1,0 +1,112 @@
+@font-face {
+    font-family: 'Ubuntu-Bold';
+    src: url('/static/fonts/Ubuntu/Ubuntu-Bold.ttf');
+}
+@font-face {
+    font-family: 'Ubuntu-Medium';
+    src: url('/static/fonts/Ubuntu/Ubuntu-Medium.ttf');
+}
+
+*{
+    margin: 0;
+    font-family: 'Ubuntu-Bold';
+    padding: 0;
+}
+:root{
+    /* --clr-bg: rgb(24, 25, 30); */
+    --clr-bg: #161829;
+    --clr-purple: #827ffe;
+    --clr-purple2: #E781C3;
+    --clr-red: rgb(240, 154, 145);
+    --clr-aqua: rgb(143, 150, 248);
+    --clr-blue: #00c7fc;
+    --clr-gray: rgb(31, 34, 58);
+    --clr-gray2: rgb(20, 24, 51);
+}
+
+
+body{
+    background-color: var(--clr-bg);
+}
+.form{
+    background-color: var(--clr-gray);
+    padding: 5%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* opacity: 0.5; */
+    border-radius: 5%;
+}
+.lable{
+    user-select: none;
+    width: min-content;
+    white-space:nowrap;
+    color: var(--clr-purple2);
+    font-size: 5rem;
+    margin: auto;
+    padding: auto;
+    font-family: 'Ubuntu-Bold';
+}
+.nickname, .pass{
+    text-align: center;
+}
+input[type=text], input[type=password]{
+    font-size: 2rem;
+    border-radius: 10px;
+    align-items: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    /* color: var(--clr-aqua); */
+    color: var(--clr-purple);
+    text-align: center;
+    border: 1px solid var(--clr-purple);
+    background-color: var(--clr-bg);
+    margin: 5% auto;
+}
+
+input[type=submit]{
+    margin: auto;
+    border-radius: 8px;
+    padding: 5px;
+    background-color: var(--clr-blue);
+    color: white;
+    font-size: 2rem;
+    border: 1px solid var(--clr-blue);
+    cursor: pointer;
+    transition: all .3s;
+}
+input[type=submit]:hover{
+    background-color: var(--clr-purple);
+    border-color: var(--clr-purple);
+}
+
+.answer{
+    margin-top: 40px;
+    color: white;
+    margin-bottom: 20px;
+}
+.btn{
+    text-align: center;
+    align-items: center;
+}
+
+.sign_up{
+    float: right;
+    margin: auto 10px;
+}
+
+.sign_up a{
+
+    color: var(--clr-purple);
+    text-decoration: none;
+}
+
+@media screen and (max-width: 500px) {
+    .form{
+        width: 80%;
+    }
+    input[type=text], input[type=password]{
+        width: 75%;
+    }
+}
