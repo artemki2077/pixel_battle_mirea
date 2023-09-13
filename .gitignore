@@ -4,5 +4,3 @@
 /venv
 .gitignore
 /*.log
-# sudo chown -R 755 /root/pixel_battle_mirea/
-# sudo chown -R nginx:nginx /root/pixel_battle_mirea/
