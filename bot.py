@@ -10,7 +10,7 @@ import logging
 import json
 
 r = redis.StrictRedis(host='artemki77.ru', port=6379, password='maxar2005', decode_responses=True)
-logging.basicConfig(filename='py_logs.log', level=logging.DEBUG, filemode='a', format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s', datefmt='%H:%M:%S',)
+logging.basicConfig(filename='py_logs.log', level=logging.WARNING, filemode='a', format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s', datefmt='%H:%M:%S',)
 
 bot = telebot.TeleBot('6401275301:AAGWQxy_8ITn0wZBODGjJqH3yerMdmlwD38')
 
@@ -48,8 +48,15 @@ def verify(message: telebot.types.Message):
             bot.reply_to(message, f'Пользователя с ником {username} прошёл верификацию')
 
 
+@bot.message_handler(commands=["stats"])
+def verify(message: telebot.types.Message):
+    bot.reply_to(message, f'cорян эту функцию я ещё не доделал(')
+
+
+
 
 
 
 if __name__ == '__main__':
+    print('start..')
     bot.polling(non_stop=True)

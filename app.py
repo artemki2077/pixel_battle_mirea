@@ -15,7 +15,7 @@ import re
 
 app = Flask(__name__)
 
-logging.basicConfig(filename='py_logs.log', level=logging.DEBUG, filemode='a', format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s', datefmt='%H:%M:%S',)
+logging.basicConfig(filename='py_logs.log', level=logging.WARNING, filemode='a', format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s', datefmt='%H:%M:%S',)
 r = redis.StrictRedis(host='artemki77.ru', port=6379, password='maxar2005', decode_responses=True)
 colors = [
 	"#FFA500", "#664200", "#331a00", "#00fac8", "#009476", "#9600c8", "#490061", "#e1beaa", "#c4845e", 
@@ -26,11 +26,11 @@ colors = [
 
 patern_color = re.compile(r'#[0-9A-Fa-f]{6}')
 
-time_wait = dt.timedelta(minutes=5)
+time_wait = dt.timedelta(minutes=1)
 
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 # all_map = [['#FFFFFF' for i in range(100)] for i in range(100)]
-all_map = r.json().get('map')
+# all_map = r.json().get('map')
 
 
 
@@ -71,13 +71,14 @@ def get_random_salt():
 def sha256(data: str) -> str:
     return hashlib.sha256(data.encode()).hexdigest()
 
-def save_map():
-    r.json().set('map', Path.root_path(), all_map)
+# def save_map():
+#     r.json().set('map', Path.root_path(), all_map)
 
 @app.route('/', methods=['POST', 'GET', 'HEAD'])
 def index():
     if request.method == 'HEAD':
-        save_map()
+        # save_map()
+        ...
 
     if session.get('username') is None:
         return redirect(url_for('login'))
@@ -96,7 +97,7 @@ def page_map():
             return redirect(url_for('login'))
         
         username = session.get('username')
-        res = users_index.search(Query(f"@username:{username}"))
+        res = users_index.search(Query(f"@username:'{username}'"))
         if res.total > 1:
             logging.error(f'ERROR: req "@username:{username}"')
         
@@ -105,103 +106,121 @@ def page_map():
 
         return render_template('map.html', colors=colors, timer=json_res['datetime_last_click'])
     else:
-        return jsonify({'ok': True, 'map': all_map})
+        return jsonify({'ok': True, 'map': r.json().get('map')})
 
 
 @app.route('/login', methods = ['POST', 'GET'])
 def login():
-    if request.method == 'GET':
-        username = request.cookies.get('username')
-        password = request.cookies.get('password')
+    try:
+        if request.method == 'GET':
+            username = request.cookies.get('username')
+            password = request.cookies.get('password')
 
-        if username and password:
-            res = users_index.search(Query(f"@username:{username}"))
-            if res.total > 1:
-                logging.error(f'ERROR: req "@username:{username}"')
-
-            if res.total:
-                doc_res = res.docs[0]
-                json_res = json.loads(doc_res.json)
-
-                if sha256(f'{password}:{json_res.get("password_salt")}') == json_res.get('password_hash') and json_res.get('verify'):
-                    session['username'] = username
-                    return redirect(url_for('index'))
-
-
-
-        if 'username' in session:
-            return redirect(url_for('index'))
-
-        return render_template('login.html')
-    else:
-        username = request.form.get('username')
-        password = request.form.get('password')
-        if username and password:
-            if not isinstance(username, str):
-                logging.ERROR(f'{username}, {type(username)}')
-                return render_template('login.html', answer="что то пошло не так, напишите в поддержку @artemki77", username=username, password=password)
-            username = username.lower()
-            res = users_index.search(Query(f"@username:{username}"))
-            if not res.total:
-                return render_template('login.html', answer="Not such user", username=username, password=password)
-            else:
+            if username and password:
+                res = users_index.search(Query(f"@username:'{username}'"))
                 if res.total > 1:
-                    logging.ERROR(f'ERROR: req "@username:{username}"')
-                
-                doc_res = res.docs[0]
-                json_res = json.loads(doc_res.json)
+                    logging.error(f'ERROR: req "@username:{username}"')
 
-                if sha256(f'{password}:{json_res.get("password_salt")}') == json_res.get('password_hash'):
-                    if not json_res.get('verify'):
-                        return render_template('login.html', answer="Your account has not been verified. you can verify your account in telegram @PixelVerify_bot", username=username, password=password)
-                    else:
+                if res.total:
+                    doc_res = res.docs[0]
+                    json_res = json.loads(doc_res.json)
+
+                    if sha256(f'{password}:{json_res.get("password_salt")}') == json_res.get('password_hash') and json_res.get('verify'):
                         session['username'] = username
-                        resp = make_response(redirect(url_for('index')))
-                        resp.set_cookie('username',
-                                    username,
-                                    max_age=60 * 60 * 24 * 365 * 2)
-                        resp.set_cookie('password',
-                                        password,
-                                        max_age=60 * 60 * 24 * 365 * 2)
-                        return resp
-                else:
-                    return render_template('login.html', answer="The password is not correct", username=username, password=password)
+                        return redirect(url_for('index'))
 
+
+
+            if 'username' in session:
+                return redirect(url_for('index'))
+
+            return render_template('login.html')
+        else:
+            username = request.form.get('username')
+            password = request.form.get('password')
+            if username and password:
+                if not isinstance(username, str):
+                    logging.ERROR(f'{username}, {type(username)}')
+                    return render_template('login.html', answer="что то пошло не так, напишите в поддержку @artemki77", username=username, password=password)
+                username = username.lower()
+
+                if username[0] == '@':
+                    username = username[1:]
+
+                res = users_index.search(Query(f"@username:'{username}'"))
+                if not res.total:
+                    return render_template('login.html', answer="Not such user", username=username, password=password)
+                else:
+                    if res.total > 1:
+                        logging.ERROR(f'ERROR: req "@username:{username}"')
+                    
+                    doc_res = res.docs[0]
+                    json_res = json.loads(doc_res.json)
+
+                    if sha256(f'{password}:{json_res.get("password_salt")}') == json_res.get('password_hash'):
+                        if not json_res.get('verify'):
+                            return render_template('login.html', answer="Ваш аккаунт ещё не верифицирован, вы можете это сделать в @PixelVerify_bot", username=username, password=password)
+                        else:
+                            session['username'] = username
+                            resp = make_response(redirect(url_for('index')))
+                            resp.set_cookie('username',
+                                        username,
+                                        max_age=60 * 60 * 24 * 365 * 2)
+                            resp.set_cookie('password',
+                                            password,
+                                            max_age=60 * 60 * 24 * 365 * 2)
+                            return resp
+                    else:
+                        return render_template('login.html', answer="Пароль неправильный", username=username, password=password)
+            else:
+                return render_template('login.html', answer="что то пошло не так, попробуйте ещё раз или обратитесь к @artemki77", username=username, password=password)
+    except Exception as e:
+        logging.error(str(e))
+        return render_template('login.html', answer="что то пошло не так, попробуйте ещё раз или обратитесь к @artemki77", username=username, password=password)
 
 @app.route('/signup', methods = ['POST', 'GET'])
 def signup():
-    if request.method == 'GET':
+    try:
+        if request.method == 'GET':
 
-        return render_template('signup.html', answer='регистрация на этом сайте происходит через телеграмм, укажите свой никнейм в тг и потом через бота(@PixelVerify_bot) подтвердите его')
-    
-    else:
-        username = request.form.get('username')
-        password = request.form.get('password')
-        if username and password:
-            res = users_index.search(Query(f"@username:{username}"))
-
-            if res.total > 1:
-                logging.ERROR(f'ERROR: req "@username:{username}"')
-
-            if res.total:
-                return render_template('signup.html', answer='Пользователь с этим ником уже существует')
-            else:
-                new_index_user = r.incr('idx:users')
-                salt = get_random_salt()
-                user = {
-                    "username": username.lower(),
-                    "password_hash": sha256(f'{password}:{salt}'),
-                    "password_salt": salt,
-                    "datetime_last_click": dt.datetime.isoformat(dt.datetime.now()),
-                    "verify": 0
-                }
-
-                r.json().set(f"user:{new_index_user}", Path.root_path(), user)
-
-                return render_template('login.html', answer='Перед тем как войти вы должны подтвердить свой аккаунт через телеграмм бота @PixelVerify_bot')
-                
+            return render_template('signup.html', answer='регистрация на этом сайте происходит через телеграмм, укажите свой никнейм в тг и потом через бота(@PixelVerify_bot) подтвердите его')
+        
         else:
-            return render_template('signup.html', answer='ERROR')
+            username = request.form.get('username')
+            password = request.form.get('password')
+            if username and password:
+                if username[0] == '@':
+                    username = username[1:]
+                
+                username = username.lower()
+
+                res = users_index.search(Query(f"@username:'{username}'"))
+
+                if res.total > 1:
+                    logging.ERROR(f'ERROR: req "@username:{username}"')
+
+                if res.total:
+                    return render_template('signup.html', answer='Пользователь с этим ником уже существует', username=username, password=password)
+                else:
+                    new_index_user = r.incr('idx:users')
+                    salt = get_random_salt()
+                    user = {
+                        "username": username.lower(),
+                        "password_hash": sha256(f'{password}:{salt}'),
+                        "password_salt": salt,
+                        "datetime_last_click": dt.datetime.isoformat(dt.datetime.now()),
+                        "verify": 0
+                    }
+
+                    r.json().set(f"user:{new_index_user}", Path.root_path(), user)
+
+                    return render_template('login.html', answer='Перед тем как войти вы должны подтвердить свой аккаунт через телеграмм бота @PixelVerify_bot', username=username, password=password)
+                    
+            else:
+                return render_template('signup.html', answer='что то пошло не так, попробуйте ещё раз или обратитесь к @artemki77', username=username, password=password)
+    except Exception as e:
+        logging.error(str(e))
+        return render_template('signup.html', answer='что то пошло не так, попробуйте ещё раз или обратитесь к @artemki77', username=username, password=password)
 
 
 @app.route('/click', methods = ['POST'])
@@ -218,13 +237,24 @@ def click():
             return jsonify({'ok': False, 'result': 'ERROR with color'})
 
         username = session.get('username')
-        res = users_index.search(Query(f"@username:{username}"))
+        res = users_index.search(Query(f"@username:'{username}'"))
         doc_res = res.docs[0]
         user_json = json.loads(doc_res.json)
 
-        if dt.datetime.now() - dt.datetime.fromisoformat(user_json.get('datetime_last_click')) > time_wait:
+        if dt.datetime.now() - dt.datetime.fromisoformat(user_json.get('datetime_last_click')) > time_wait or username in ['artemki77']:
             r.json().set(doc_res.id, '$.datetime_last_click', dt.datetime.isoformat(dt.datetime.now()))
-            all_map[req_json.get('y')][req_json.get('x')] = req_json.get('color')
+            res = r.json().set('map', Path(f"[{req_json.get('y')}][{req_json.get('x')}]"), req_json.get('color'))
+
+            new_index_click = r.incr('idx:clicks')
+            click = {
+                        "username": username.lower(),
+                        "datetime": dt.datetime.isoformat(dt.datetime.now()),
+                        "color": req_json.get('color'),
+                        "x": int(req_json.get('x')),
+                        "y": int(req_json.get('y'))
+                    }
+            
+            r.json().set(f"click:{new_index_click}", Path.root_path(), click)
 
             return jsonify({'ok': True, 'result': 'SUCCESS', 'params': {
                 'x': int(req_json.get('x')),
@@ -253,4 +283,4 @@ def logout():
 
 
 if __name__ == "__main__":
-    app.run('0.0.0.0', 8000, debug=True)
+    app.run('0.0.0.0', 8000)
