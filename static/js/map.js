@@ -1,5 +1,6 @@
 var canvas = document.querySelector("#cnv");
 const ctx = canvas.getContext("2d");
+var cords = document.querySelector('#cords')
 
 var timer = document.querySelector('#timer');
 
@@ -7,7 +8,7 @@ var last_time = new Date(last_time_iso);
 
 
 
-setInterval(update_map, 2000);
+setInterval(update_map, 3000);
 setInterval(update_time, 1000);
 update_map();
 
@@ -30,7 +31,7 @@ var move_x = 0;
 var move_y = 0;
 let SCROLL_SENSITIVITY = 0.0005;
 var phone = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-var setk = true;
+var setk = false;
 
 
 // window.addEventListener('resize', resizeCanvas, false);
@@ -261,7 +262,6 @@ function click(e){
 		req.json().then((res)=>{
 			if(res.ok){
 				map.cells[res.params.y][res.params.x].color = res.params.color;
-				last_time = new Date();
 			}else{
 				console.log(res.result);
 				if(res.last_time){
@@ -274,7 +274,7 @@ function click(e){
 }
 
 function update_time(){
-	let must_be = new Date().setTime(last_time.getTime() + 5 * 60 * 1000);
+	let must_be = new Date().setTime(last_time.getTime() + 1 * 60 * 1000);
 	if(must_be > new Date()){
 		let microsec = must_be - new Date();
 		let minutes_str = `${Math.floor(microsec / 1000 / 60)}`;
@@ -343,6 +343,13 @@ function draw() {
 			}
 		}
 	});
+	if(!phone){
+		cords.innerHTML = `x: ${cursor.i}, y:  ${cursor.j}`
+	}else{
+		cords.innerHTML = '';
+	}
+	
+
 	if(!phone){
 		cursor.draw();
 	}
