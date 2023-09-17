@@ -4,25 +4,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/login.css">
-    <title>Login</title>
+    <link rel="stylesheet" href="/static/css/signup.css">
+    <title>Вход</title>
 </head>
 <body>
     <div class="form">
         <form action="" method="post">
-            <div class="lable">Login</div>
+            <div class="lable">Вход</div>
             <div class="nickname">
                 <input placeholder="telegram" name="username" type="text" value="{{username}}" required>
             </div>
             <div class="pass">
                 <input placeholder="password" name="password" type="password" value="{{password}}" required>
             </div>
-
             <div class="sign_up">
-                <a href="/signup">Sigh Up</a>
+                <a href="/signup">Регистрация</a>
             </div>
-
-            
             <center class="answer">
                 {{answer}}
             </center>

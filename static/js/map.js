@@ -262,6 +262,7 @@ function click(e){
 		req.json().then((res)=>{
 			if(res.ok){
 				map.cells[res.params.y][res.params.x].color = res.params.color;
+				last_time = new Date();
 			}else{
 				console.log(res.result);
 				if(res.last_time){
@@ -329,8 +330,8 @@ function draw() {
 	rect(
 		-(canvas_size / 2),
 		-(canvas_size / 2),
-		canvas_size + 2,
-		canvas_size + 2,
+		canvas_size + 4,
+		canvas_size + 4,
 		"#a1e7fb"
 	);
 

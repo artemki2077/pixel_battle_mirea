@@ -103,6 +103,20 @@ input[type=submit]:hover{
 }
 
 @media screen and (max-width: 500px) {
+    .lable{
+        font-size: 3rem;
+    }
+    .form{
+        width: 80%;
+    }
+    input[type=text], input[type=password]{
+        width: 75%;
+    }
+}
+@media screen and (max-width: 362px) {
+    .lable{
+        font-size: 2rem;
+    }
     .form{
         width: 80%;
     }
