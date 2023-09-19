@@ -44,6 +44,9 @@
   	color: #fff;
 }
 
+html{
+    background-color: var(--clr-bg);
+}
 
 body{
     background-color: var(--clr-bg);
