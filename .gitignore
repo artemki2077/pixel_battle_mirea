@@ -4,3 +4,4 @@
 /venv
 .gitignore
 /*.log
+*.env

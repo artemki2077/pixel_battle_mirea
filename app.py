@@ -12,11 +12,16 @@ import random
 import datetime as dt
 import logging
 import re
+import os
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 app = Flask(__name__)
 
 logging.basicConfig(filename='py_logs.log', level=logging.WARNING, filemode='a', format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s', datefmt='%H:%M:%S',)
-r = redis.StrictRedis(host='artemki77.ru', port=6379, password='maxar2005', decode_responses=True)
+r = redis.StrictRedis(host='artemki77.ru', port=6379, password=os.environ.get('db_password'), decode_responses=True)
 colors = [
 	"#FFA500", "#664200", "#331a00", "#00fac8", "#009476", "#9600c8", "#490061", "#e1beaa", "#c4845e", 
 	"#ffaabe", "#ff5f82", "#000000", "#808080", "#C0C0C0", "#FFFFFF", "#FF00FF", "#800080", "#FF0000", 
