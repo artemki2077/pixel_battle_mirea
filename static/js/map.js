@@ -6,7 +6,7 @@ const ctx = canvas.getContext("2d");
 
 // var last_time = new Date(last_time_iso);
 
-
+var gg = localStorage.getItem('gg')
 
 // setInterval(update_map, 3000);
 // setInterval(update_time, 1000); 
@@ -344,6 +344,7 @@ function draw() {
 			}
 		}
 	});
+	
 	// if(!phone){
 	// 	cords.innerHTML = `x: ${cursor.i}, y:  ${cursor.j}`
 	// }else{
@@ -354,7 +355,14 @@ function draw() {
 	if(false){
 		cursor.draw();
 	}
+
 	requestAnimationFrame(draw);
+
+	if(!gg){
+		alert('PixelBattle закончился, спасибо всем кто принимал участие!!!');
+		localStorage.setItem('gg', true);
+		gg = true;
+	}
 }
 
 canvas.addEventListener("mousedown", onPointerDown);
