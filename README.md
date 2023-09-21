@@ -5,4 +5,4 @@
 ## Завершение второго сезона
 
 Ещё раз спасибо всем кто принимал участие, это было весело, саму карту с финальным рисунком можно глянуть тут (https://artemki77.ru)
-<img width="728" alt="Снимок экрана 2023-09-21 в 18 02 20" src="https://github.com/artemki2077/pixel_battle_mirea/assets/86531080/c4273acc-36dc-4c32-a933-6cddb881f15f">
+<img width="724" alt="Снимок экрана 2023-09-21 в 18 03 59" src="https://github.com/artemki2077/pixel_battle_mirea/assets/86531080/e368cece-87fe-4324-bcfc-953181a24462">
