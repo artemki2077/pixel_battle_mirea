@@ -1,15 +1,15 @@
 var canvas = document.querySelector("#cnv");
 const ctx = canvas.getContext("2d");
-var cords = document.querySelector('#cords')
+// var cords = document.querySelector('#cords')
 
-var timer = document.querySelector('#timer');
+// var timer = document.querySelector('#timer');
 
-var last_time = new Date(last_time_iso);
+// var last_time = new Date(last_time_iso);
 
 
 
-setInterval(update_map, 3000);
-setInterval(update_time, 1000);
+// setInterval(update_map, 3000);
+// setInterval(update_time, 1000); 
 update_map();
 
 var mouse = {
@@ -232,63 +232,63 @@ function callAll(callback, reverse) {
 }
 
 function click(e){
-	now_x = ((getEventLocation(e).x - (window.innerWidth / 2))/cameraZoom) + (window.innerWidth / 2)  - cameraOffset.x;
-	now_y = ((getEventLocation(e).y - (window.innerHeight / 2))/cameraZoom) + (window.innerHeight / 2)  - cameraOffset.y;
-	callAll((item) => {
-		if(item != undefined){
-			if(item.checkMouse(now_x, now_y)){
-				cursor.y = item.y;
-				cursor.x = item.x;
-				cursor.i = item.i;
-				cursor.j = item.j;
-			}
-		}
-	});
+	// now_x = ((getEventLocation(e).x - (window.innerWidth / 2))/cameraZoom) + (window.innerWidth / 2)  - cameraOffset.x;
+	// now_y = ((getEventLocation(e).y - (window.innerHeight / 2))/cameraZoom) + (window.innerHeight / 2)  - cameraOffset.y;
+	// callAll((item) => {
+	// 	if(item != undefined){
+	// 		if(item.checkMouse(now_x, now_y)){
+	// 			cursor.y = item.y;
+	// 			cursor.x = item.x;
+	// 			cursor.i = item.i;
+	// 			cursor.j = item.j;
+	// 		}
+	// 	}
+	// });
 
-	console.log(cursor.i, cursor.j);
+	// console.log(cursor.i, cursor.j);
 
-	fetch('/click', {
-		method: "post",
-		headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			x: cursor.i,
-			y: cursor.j,
-			color: map.selected_color,
-		})
-	}).then((req)=>{
-		req.json().then((res)=>{
-			if(res.ok){
-				map.cells[res.params.y][res.params.x].color = res.params.color;
-				last_time = new Date();
-			}else{
-				console.log(res.result);
-				if(res.last_time){
-					last_time = new Date(res.last_time);
-				}
-			}
-		})
-	});
+	// fetch('/click', {
+	// 	method: "post",
+	// 	headers: {
+	// 		'Accept': 'application/json',
+	// 		'Content-Type': 'application/json'
+	// 	},
+	// 	body: JSON.stringify({
+	// 		x: cursor.i,
+	// 		y: cursor.j,
+	// 		color: map.selected_color,
+	// 	})
+	// }).then((req)=>{
+	// 	req.json().then((res)=>{
+	// 		if(res.ok){
+	// 			map.cells[res.params.y][res.params.x].color = res.params.color;
+	// 			last_time = new Date();
+	// 		}else{
+	// 			console.log(res.result);
+	// 			if(res.last_time){
+	// 				last_time = new Date(res.last_time);
+	// 			}
+	// 		}
+	// 	})
+	// });
 	
 }
 
-function update_time(){
-	let must_be = new Date().setTime(last_time.getTime() + 1 * 60 * 1000);
-	if(must_be > new Date()){
-		let microsec = must_be - new Date();
-		let minutes_str = `${Math.floor(microsec / 1000 / 60)}`;
-		let seconds_str = `${Math.floor((microsec - (Math.floor(microsec / 1000 / 60) * 1000 * 60)) / 1000)}`
-		minutes_str = minutes_str.length == 1 ? '0' + minutes_str : minutes_str
-		seconds_str = seconds_str.length == 1 ? '0' + seconds_str : seconds_str
+// function update_time(){
+// 	let must_be = new Date().setTime(last_time.getTime() + 1 * 60 * 1000);
+// 	if(must_be > new Date()){
+// 		let microsec = must_be - new Date();
+// 		let minutes_str = `${Math.floor(microsec / 1000 / 60)}`;
+// 		let seconds_str = `${Math.floor((microsec - (Math.floor(microsec / 1000 / 60) * 1000 * 60)) / 1000)}`
+// 		minutes_str = minutes_str.length == 1 ? '0' + minutes_str : minutes_str
+// 		seconds_str = seconds_str.length == 1 ? '0' + seconds_str : seconds_str
 
-		timer.innerHTML = `${minutes_str}:${seconds_str}`;
-	}else{
-		timer.innerHTML = `access`;
-	}
+// 		timer.innerHTML = `${minutes_str}:${seconds_str}`;
+// 	}else{
+// 		timer.innerHTML = `access`;
+// 	}
 		
-}
+// }
 
 function update_map(){
 	fetch('', {
@@ -344,14 +344,14 @@ function draw() {
 			}
 		}
 	});
-	if(!phone){
-		cords.innerHTML = `x: ${cursor.i}, y:  ${cursor.j}`
-	}else{
-		cords.innerHTML = '';
-	}
+	// if(!phone){
+	// 	cords.innerHTML = `x: ${cursor.i}, y:  ${cursor.j}`
+	// }else{
+	// 	cords.innerHTML = '';
+	// }
 	
 
-	if(!phone){
+	if(false){
 		cursor.draw();
 	}
 	requestAnimationFrame(draw);

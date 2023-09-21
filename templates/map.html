@@ -8,27 +8,17 @@
     <title>PixelMap</title>
 </head>
 <body>
-    <div class="colors">
+    <!-- <div class="colors">
         {% for i in colors %}
 			    <button class="color" style="background: {{i}};" onclick="setColor('{{i}}');"></button>
 		{% endfor %}
         <button class="color" style="background: url(https://unizarostone.ru/uploads/thumbs/catalog/items/220x220_1_3a30482410de5b9bbd9d298677a9692b.jpg) no-repeat;;" onclick="setk = !setk"></button>
-    </div>
+    </div> -->
     <canvas id="cnv"></canvas>
-    <div class="add">
-        <div class="selected_color">
-            
-        </div>
-        <div id="timer" class="timer">
-           00:00
-        </div>
-        <div id="cords">
-        </div>
-    </div>
     
 </body>
     <script>
-        var last_time_iso = '{{timer}}';
+        // var last_time_iso = '{{timer}}';
     </script>
     <script src="static/js/map.js"></script>
 </html>
