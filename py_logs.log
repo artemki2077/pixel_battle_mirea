@@ -1,24 +1,8 @@
-18:06:27,884 werkzeug INFO  * Detected change in '/Users/kiselevartem/PycharmProjects/pixel_battle_mirea/bot.py', reloading
-18:06:27,980 werkzeug INFO  * Restarting with stat
-18:06:28,257 werkzeug WARNING  * Debugger is active!
-18:06:28,263 werkzeug INFO  * Debugger PIN: 195-389-683
-18:06:37,776 werkzeug INFO  * Detected change in '/Users/kiselevartem/PycharmProjects/pixel_battle_mirea/bot.py', reloading
-18:06:37,799 werkzeug INFO  * Restarting with stat
-18:06:37,945 werkzeug WARNING  * Debugger is active!
-18:06:37,950 werkzeug INFO  * Debugger PIN: 195-389-683
-18:06:50,691 werkzeug INFO  * Detected change in '/Users/kiselevartem/PycharmProjects/pixel_battle_mirea/test.py', reloading
-18:06:50,717 werkzeug INFO  * Restarting with stat
-18:06:50,868 werkzeug WARNING  * Debugger is active!
-18:06:50,873 werkzeug INFO  * Debugger PIN: 195-389-683
-18:06:55,169 werkzeug INFO  * Detected change in '/Users/kiselevartem/PycharmProjects/pixel_battle_mirea/bot.py', reloading
-18:06:55,209 werkzeug INFO  * Restarting with stat
-18:06:55,310 werkzeug WARNING  * Debugger is active!
-18:06:55,315 werkzeug INFO  * Debugger PIN: 195-389-683
-18:07:02,817 werkzeug INFO  * Detected change in '/Users/kiselevartem/PycharmProjects/pixel_battle_mirea/test.py', reloading
-18:07:02,842 werkzeug INFO  * Restarting with stat
-18:07:02,956 werkzeug WARNING  * Debugger is active!
-18:07:02,960 werkzeug INFO  * Debugger PIN: 195-389-683
-18:07:06,182 werkzeug INFO  * Detected change in '/Users/kiselevartem/PycharmProjects/pixel_battle_mirea/test.py', reloading
-18:07:06,214 werkzeug INFO  * Restarting with stat
-18:07:06,318 werkzeug WARNING  * Debugger is active!
-18:07:06,322 werkzeug INFO  * Debugger PIN: 195-389-683
+17:18:25,236 werkzeug INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://172.20.10.2:8000
+17:18:25,236 werkzeug INFO [33mPress CTRL+C to quit[0m
+17:18:25,238 werkzeug INFO  * Restarting with stat
+17:18:25,353 werkzeug WARNING  * Debugger is active!
+17:18:25,361 werkzeug INFO  * Debugger PIN: 474-244-676

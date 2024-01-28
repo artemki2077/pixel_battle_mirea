@@ -2,6 +2,8 @@
 /test.py
 /test2.py
 /venv
-.gitignore
 /*.log
 *.env
+*log
+py_logs.log
+.DS_Store
